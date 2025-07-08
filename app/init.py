@@ -1,5 +1,6 @@
 import logging
 from aiogram import Bot, Dispatcher, types
+from aiogram.client.bot import DefaultBotProperties
 from aiogram.filters import CommandStart
 
 from .config import config
@@ -13,7 +14,10 @@ async def on_startup(bot: Bot):
 
 async def init() -> None:
     logging.basicConfig(level=logging.INFO)
-    bot = Bot(token=config.token, parse_mode=config.parse_mode)
+    bot = Bot(
+        token=config.token,
+        default=DefaultBotProperties(parse_mode=config.parse_mode),
+    )
     dp = Dispatcher()
 
     dp.message.middleware.register(LoggingMiddleware())
